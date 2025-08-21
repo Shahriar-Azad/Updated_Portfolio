@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .portfolio-title {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .music-toggle {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .music-toggle:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .music-toggle:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .music-visualizer {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+            height: 16px;
+        }
+
+        .music-bar {
+            width: 3px;
+            background: currentColor;
+            border-radius: 2px;
+            animation: musicBars 1.2s ease-in-out infinite;
+        }
+
+        .music-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .music-bar:nth-child(2) { height: 12px; animation-delay: 0.2s; }
+        .music-bar:nth-child(3) { height: 6px; animation-delay: 0.4s; }
+        .music-bar:nth-child(4) { height: 14px; animation-delay: 0.6s; }
+
+        @keyframes musicBars {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        .main-content > * {
+            pointer-events: auto;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-picture {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 1.4rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 4px solid rgb(255, 255, 255);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-name {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .profile-title {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:active {
+            transform: translateY(0);
+        }
+
+        .window {
+            position: fixed;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1);
+            min-width: 400px;
+            min-height: 300px;
+            z-index: 100;
+            display: none;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: z-index 0.1s ease;
+        }
+
+        .window.active {
+            z-index: 200;
+        }
+
+        .window-header {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .window-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .close-button {
+            background: #ff4757;
+            border: none;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close-button:hover {
+            background: #ff3838;
+            transform: scale(1.1);
+        }
+
+        .window-content {
+            padding: 25px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Projects specific styles */
+        .projects-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .project-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .project-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .project-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Skills styles */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill-item {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Contact form styles */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Experience styles */
+        .experience-item {
+            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(90, 103, 216, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(90, 103, 216, 0.4);
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .experience-company {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .experience-duration {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        .experience-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* About styles */
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #4a5568;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(74, 85, 104, 0.1);
+        }
+
+        .about-content h3 {
+            color: #4a90e2;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .portfolio-title {
+                font-size: 2rem;
+            }
+            
+            .profile-picture {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                gap: 15px;
+                max-width: 600px;
+            }
+            
+            .window {
+                min-width: 350px;
+                max-width: 85vw;
+                max-height: 80vh;
+            }
+            
+            .window-content {
+                max-height: 350px;
+            }
+            
+            .projects-container {
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-header {
+                padding: 15px 10px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo,
+            .music-toggle {
+                position: relative;
+                transform: none;
+                margin: 0;
+            }
+            
+            .portfolio-title {
+                font-size: 1.8rem;
+                margin: 0;
+            }
+            
+            .profile-picture {
+                width: 160px;
+                height: 160px;
+                font-size: 1.2rem;
+            }
+            
+            .profile-name {
+                font-size: 1.8rem;
+            }
+            
+            .profile-title {
+                font-size: 1.2rem;
+            }
+            
+            .social-links {
+                gap: 15px;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .social-link svg {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .navigation {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+                max-width: 100%;
+            }
+            
+            .nav-button {
+                padding: 12px 20px;
+                font-size: 1rem;
+                min-width: 120px;
+            }
+            
+            .window {
+                min-width: 300px;
+                max-width: 95vw;
+                max-height: 85vh;
+            }
+            
+            .window-content {
+                padding: 20px;
+                max-height: 400px;
+            }
+            
+            .projects-container {
+                max-height: 350px;
+            }
+            
+            .project-card {
+                padding: 20px;
+            }
+            
+            .experience-item {
+                padding: 20px;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 10px;
+            }
+            
+            .skill-item {
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+                position: relative;
+                transform: none;
+                top: auto;
+                left: auto;
+                height: auto;
+                min-height: calc(100vh - 140px);
+                justify-content: flex-start;
+                padding-top: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-title {
+                font-size: 1.5rem;
+            }
+            
+            .profile-picture {
+                width: 140px;
+                height: 140px;
+                font-size: 1rem;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+            }
+            
+            .profile-title {
+                font-size: 1.1rem;
+            }
+            
+            .social-links {
+                gap: 12px;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .social-link svg {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+                min-width: 100px;
+            }
+            
+            .window {
+                min-width: 280px;
+                max-width: 98vw;
+            }
+            
+            .window-content {
+                padding: 15px;
+            }
+            
+            .project-card,
+            .experience-item {
+                padding: 15px;
+            }
+            
+            .project-title,
+            .experience-title {
+                font-size: 1.2rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
+            
+            .contact-form {
+                gap: 15px;
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: 10px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .main-content {
+                position: relative;
+                transform: none;
+                top: auto;
+                left: auto;
+                height: auto;
+                padding: 20px;
+                justify-content: flex-start;
+            }
+            
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Loading Portfolio...</div>
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop preload="auto" style="display: none;">
+        <source src="midnight-daydreams-250159.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="portfolio-header">
+        <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">
+            <div class="music-visualizer" id="musicVisualizer">
+                <div class="music-bar"></div>
+                <div class="music-bar"></div>
+                <div class="music-bar"></div>
+                <div class="music-bar"></div>
+            </div>
+            <span id="musicText">Music ON</span>
+        </button>
+    </div>
+
+    <div class="main-content">
+        <div class="profile-section">
+            <div class="profile-picture">
+                <img src="pic.jpeg" alt="profile-photo">
+            </div>
+            <h1 class="profile-name">SHAHRIAR AZAD</h1>
+            <h2 class="profile-title">Software Engineer - Frontend | SQA</h2>
+            <div class="social-links">
+                <a href="https://facebook.com/your-profile" target="_blank" class="social-link" onclick="playClickSound()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com/in/your-profile" target="_blank" class="social-link" onclick="playClickSound()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/your-username" target="_blank" class="social-link" onclick="playClickSound()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://twitter.com/your-username" target="_blank" class="social-link" onclick="playClickSound()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" onclick="openWindow('experience')">Experience</button>
+            <button class="nav-button" onclick="openWindow('projects')">Projects</button>
+            <button class="nav-button" onclick="openWindow('skills')">Skills</button>
+            <button class="nav-button" onclick="openWindow('about')">About</button>
+            <button class="nav-button" onclick="openWindow('contact')">Contact</button>
+        </div>
+    </div>
+
+    <!-- Experience Window -->
+    <div class="window" id="experience-window">
+        <div class="window-header">
+            <span class="window-title">Experience</span>
+            <button class="close-button" onclick="closeWindow('experience-window')">×</button>
+        </div>
+        <div class="window-content">
+            <div class="experience-item">
+                <div class="experience-title">Senior Frontend Developer</div>
+                <div class="experience-company">Tech Solutions Inc.</div>
+                <div class="experience-duration">2022 - Present</div>
+                <div class="experience-description">
+                    Led the development of responsive web applications using React.js and modern JavaScript frameworks. Collaborated with cross-functional teams to deliver high-quality user experiences.
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">SQA Engineer</div>
+                <div class="experience-company">Quality Assurance Corp</div>
+                <div class="experience-duration">2020 - 2022</div>
+                <div class="experience-description">
+                    Developed comprehensive testing strategies and automated test suites. Improved software quality and reduced bug reports by 40% through rigorous testing processes.
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Junior Web Developer</div>
+                <div class="experience-company">StartUp Innovations</div>
+                <div class="experience-duration">2019 - 2020</div>
+                <div class="experience-description">
+                    Built interactive web interfaces and implemented responsive designs. Gained expertise in HTML5, CSS3, and JavaScript while working on various client projects.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Window -->
+    <div class="window" id="projects-window">
+        <div class="window-header">
+            <span class="window-title">Projects</span>
+            <button class="close-button" onclick="closeWindow('projects-window')">×</button>
+        </div>
+        <div class="window-content">
+            <div class="projects-container">
+                <div class="project-card">
+                    <div class="project-title">E-Commerce Platform</div>
+                    <div class="project-description">
+                        A full-stack e-commerce solution built with React, Node.js, and MongoDB. Features include user authentication, payment integration, order management, and responsive design. Implemented advanced search functionality and real-time inventory tracking.
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">React.js</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Stripe API</span>
+                    </div>
+
+</body>
+</html>
